@@ -21,11 +21,11 @@ const App = () => {
   const maxVoteIndex = votes.indexOf(maxVotesCount)
   const mostVotedAnecdote = anecdotes[maxVoteIndex]
 
-  const nextAnecdote = () => () => {
+  const nextAnecdote = () => {
     setSelected(Math.floor(anecdotes.length * Math.random()))
   }
 
-  const voteHandler = () => () => {
+  const voteHandler = () => {
     const copy = [...votes]
     copy[selected] += 1
     setVotes(copy)
@@ -36,8 +36,8 @@ const App = () => {
       <h1>Anecdote of the day</h1>
       <div>{anecdotes[selected]}</div>
       <div>has {vote} votes</div>
-      <Button name="next anecdote" onClick={nextAnecdote()}></Button>
-      <Button name="vote" onClick={voteHandler()}></Button>
+      <Button name="next anecdote" onClick={nextAnecdote}></Button>
+      <Button name="vote" onClick={voteHandler}></Button>
 
       <h1>Anectode with most votes</h1>
       <div>{mostVotedAnecdote}</div>
