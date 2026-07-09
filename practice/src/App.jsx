@@ -30,8 +30,6 @@ const App = () => {
       })
   }
 
-  console.log('render', notes.length, 'notes')
-
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
