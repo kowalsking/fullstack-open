@@ -3,7 +3,7 @@
     {
       "id": "1",
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
       "id": "2",
@@ -42,7 +42,7 @@
     },
     {
       "content": "gogi",
-      "important": false,
+      "important": true,
       "id": "1mJ4FMjy1H4"
     }
   ],
