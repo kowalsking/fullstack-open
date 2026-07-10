@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 import Person from './components/Persons'
 import axios from 'axios'
 import personService from './services/persons'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [query, setQuery] = useState('')
+  const [message, setMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((response) => {
-      setPersons(response.data)
-    })
+    personService.getAll().then((persons) => setPersons(persons))
   }, [])
 
   const addPersona = (event) => {
@@ -33,8 +35,13 @@ const App = () => {
               person.id === existPerson.id ? resPerson : person,
             ),
           )
+          showMessage(`${newName} was updated in phonebook!`)
+
           setNewName('')
           setNewNumber('')
+        })
+        .catch((error) => {
+          showMessage(`${newName} has already been removed from server!`, true)
         })
       return
     }
@@ -42,6 +49,8 @@ const App = () => {
 
     personService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson))
+      showMessage(`${newName} was added to phonebook!`)
+
       setNewName('')
       setNewNumber('')
     })
@@ -74,9 +83,19 @@ const App = () => {
     })
   }
 
+  const showMessage = (msg, isError = false) => {
+    setIsError(isError)
+    setMessage(msg)
+    setTimeout(() => {
+      setIsError(isError)
+      setMessage(null)
+    }, 5000)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} isError={isError} />
       <Filter query={query} onChange={handleFilter} />
       <PersonForm
         onSubmit={addPersona}
